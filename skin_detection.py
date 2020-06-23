@@ -15,7 +15,7 @@ def display_image(image, name):
 # segment using otsu binarization and thresholding
 def segment_otsu(image_grayscale, img_BGR):
     threshold_value, threshold_image = cv2.threshold(image_grayscale, 0, 255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
-    display_image(threshold_image, "otsu") 
+    display_image(threshold_image, "otsu")
     threshold_image_binary = 1- threshold_image/255
     threshold_image_binary = np.repeat(threshold_image_binary[:, :, np.newaxis], 3, axis=2)
     img_face_only = np.multiply(threshold_image_binary, img_BGR)
@@ -34,6 +34,7 @@ display_image(img_grayscale, "grayscale")
 
 # foreground and background segmentation (otsu)
 img_face_only = segment_otsu(img_grayscale, img_BGR)
+img_face_only = img_face_only.astype(np.uint8)
 display_image(img_face_only, "segmented BGR")
 
 # convert to HSV and YCrCb color spaces and detect potential pixels
